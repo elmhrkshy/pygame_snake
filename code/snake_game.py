@@ -97,9 +97,6 @@ class SnakeGame:
         return game_over, self.score
     
     def _is_collision(self):
-        # hits boundary
-        if self.head.x > self.w - BLOCK_SIZE or self.head.x < 0 or self.head.y > self.h - BLOCK_SIZE or self.head.y < 0:
-            return True
         # hits itself
         if self.head in self.snake[1:]:
             return True
@@ -122,14 +119,24 @@ class SnakeGame:
     def _move(self, direction):
         x = self.head.x
         y = self.head.y
+
+        # hits boundary and teleports to the opposite side
         if direction == Direction.RIGHT:
             x += BLOCK_SIZE
+            if x > self.w - BLOCK_SIZE:
+                x = 0
         elif direction == Direction.LEFT:
             x -= BLOCK_SIZE
+            if x < 0:
+                x = self.w
         elif direction == Direction.DOWN:
             y += BLOCK_SIZE
+            if y > self.h - BLOCK_SIZE:
+                y = 0
         elif direction == Direction.UP:
             y -= BLOCK_SIZE
+            if y <  0:
+                y = self.h
             
         self.head = Point(x, y)
             
