@@ -23,7 +23,8 @@ BLUE2 = (0, 100, 255)
 BLACK = (0,0,0)
 
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 10
+SPEED_INCREMENT = 2
 
 class SnakeGame:
     
@@ -45,6 +46,7 @@ class SnakeGame:
         
         self.score = 0
         self.food = None
+        self.speed = SPEED
         self._place_food()
         
     def _place_food(self):
@@ -84,12 +86,13 @@ class SnakeGame:
         if self.head == self.food:
             self.score += 1
             self._place_food()
+            self.speed += SPEED_INCREMENT
         else:
             self.snake.pop()
         
         # 5. update ui and clock
         self._update_ui()
-        self.clock.tick(SPEED)
+        self.clock.tick(self.speed)
         # 6. return game over and score
         return game_over, self.score
     
